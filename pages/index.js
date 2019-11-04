@@ -74,6 +74,15 @@ export default class App extends Component {
     });
   };
 
+  deleteFile = async (index, fileName) => {
+    await this.userSession.deleteFile(fileName);
+
+    let files = _.clone(this.state.files);
+    _.pullAt(files, [index]);
+
+    this.setState({ files });
+  };
+
   downloadFile = async event => {
     const fileName = event.target.text;
     const file = await this.userSession.getFile(fileName);
@@ -113,6 +122,7 @@ export default class App extends Component {
           <div>
             <form onSubmit={this.uploadText}>
               <textarea
+                rows="1"
                 onChange={this.handleChangeText}
                 value={this.state.text}
                 placeholder="write something..."
@@ -128,12 +138,22 @@ export default class App extends Component {
             </form>
 
             <h2>files</h2>
-            {this.state.files.map((value, index) => {
+            {this.state.files.map((fileName, index) => {
               return (
-                <li key={value}>
-                  <a href="#" onClick={this.downloadFile}>
-                    {value}
-                  </a>
+                <li key={fileName}>
+                  <span>
+                    <a href="#" onClick={this.downloadFile}>
+                      {fileName}
+                    </a>
+                  </span>
+                  <span className="delete">
+                    <a
+                      href="#"
+                      onClick={() => this.deleteFile(index, fileName)}
+                    >
+                      x
+                    </a>
+                  </span>
                 </li>
               );
             })}

@@ -1,12 +1,16 @@
 const express = require("express");
 const next = require("next");
 const Cors = require("micro-cors");
-const manifest = require("./manifest.json");
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+let manifest = require("./manifest.json");
+if (dev) {
+  manifest = require("./manifest-dev.json");
+}
 
 const cors = Cors({
   allowedMethods: ["POST", "GET", "OPTIONS", "DELETE", "PUT"]
