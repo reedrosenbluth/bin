@@ -6,13 +6,17 @@ body {
 .app {
   margin: 0 auto;
   width: 50%;
-  border: 1px solid blue;
-  padding: 1rem;
+  border: 1px dashed;
+  padding: 2rem;
 }
 
 .header {
   display: inline-block;
   width: 100%;
+}
+
+h1 {
+  margin: 0;
 }
 
 .app-name {
@@ -21,7 +25,20 @@ body {
   float: left;
 }
 
+textarea {
+  border: none;
+  border-bottom: 1px solid #a9a9a9;
+  color: black;
+  resize: none;
+  margin-bottom: .2rem;
+  margin-right: 1rem;
+}
+
 .login {
+  margin-top: 1rem;
+}
+
+.logout {
   float: right;
   text-align: right;
 }

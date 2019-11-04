@@ -13,6 +13,7 @@ export default class App extends Component {
 
     this.state = {
       user: {},
+      text: "",
       files: [],
       file: null
     };
@@ -27,21 +28,39 @@ export default class App extends Component {
       this.setState({ user });
     }
 
-    this.fetchData();
+    if (this.state.user) {
+      this.fetchData();
+    }
   }
 
   async fetchData() {
     if (this.state.user) {
+      const text = await this.userSession.getFile("text");
+      if (text) {
+        this.setState({ text });
+      }
+
       await this.userSession.listFiles(file => {
-        this.setState({ files: _.concat(this.state.files, file) });
-        return true;
+        if (file !== "text") {
+          this.setState({ files: _.concat(this.state.files, file) });
+          return true;
+        }
       });
     } else {
       throw new Error("Not signed in");
     }
   }
 
-  handleChange = event => {
+  handleChangeText = event => {
+    this.setState({ text: event.target.value });
+  };
+
+  uploadText = async event => {
+    event.preventDefault();
+    await this.userSession.putFile("text", this.state.text);
+  };
+
+  handleChooseFile = event => {
     this.setState({ file: event.target.files[0] });
   };
 
@@ -66,14 +85,10 @@ export default class App extends Component {
     return (
       <div className="app">
         <div className="header">
-          <h1 className="app-name">bin</h1>
+          <h1 className="app-name">/bin</h1>
 
-          <span className="login">
-            {!this.userSession.isUserSignedIn() ? (
-              <button onClick={() => this.userSession.redirectToSignIn()}>
-                sign in
-              </button>
-            ) : (
+          {this.userSession.isUserSignedIn() && (
+            <span className="logout">
               <>
                 <p>{this.state.user.username}</p>
                 <button
@@ -84,27 +99,46 @@ export default class App extends Component {
                   sign out
                 </button>
               </>
-            )}
-          </span>
+            </span>
+          )}
         </div>
 
-        <h2>upload</h2>
-        <form onSubmit={this.uploadFile}>
-          <input type="file" onChange={this.handleChange} />
-          <br></br>
-          <button type="submit">upload</button>
-        </form>
+        {!this.userSession.isUserSignedIn() ? (
+          <div className="login">
+            <button onClick={() => this.userSession.redirectToSignIn()}>
+              sign in
+            </button>
+          </div>
+        ) : (
+          <div>
+            <form onSubmit={this.uploadText}>
+              <textarea
+                onChange={this.handleChangeText}
+                value={this.state.text}
+                placeholder="write something..."
+              ></textarea>
+              <button type="submit">save</button>
+            </form>
 
-        <h2>files</h2>
-        {this.state.files.map((value, index) => {
-          return (
-            <li key={value}>
-              <a href="#" onClick={this.downloadFile}>
-                {value}
-              </a>
-            </li>
-          );
-        })}
+            <h2>upload</h2>
+            <form onSubmit={this.uploadFile}>
+              <input type="file" onChange={this.handleChooseFile} />
+              <br></br>
+              <button type="submit">upload</button>
+            </form>
+
+            <h2>files</h2>
+            {this.state.files.map((value, index) => {
+              return (
+                <li key={value}>
+                  <a href="#" onClick={this.downloadFile}>
+                    {value}
+                  </a>
+                </li>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }

@@ -1,7 +1,7 @@
 const express = require("express");
 const next = require("next");
-const manifest = require("./manifest.json");
 const Cors = require("micro-cors");
+const manifest = require("./manifest.json");
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
