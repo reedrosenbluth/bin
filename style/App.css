@@ -1,0 +1,31 @@
+body {
+  font-family: monospace;
+  margin-top: 2rem;
+}
+
+.app {
+  margin: 0 auto;
+  width: 50%;
+  border: 1px solid blue;
+  padding: 1rem;
+}
+
+.header {
+  display: inline-block;
+  width: 100%;
+}
+
+.app-name {
+  font-style: italic;
+  color: blue;
+  float: left;
+}
+
+.login {
+  float: right;
+  text-align: right;
+}
+
+a {
+  color: blue
+}

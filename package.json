@@ -4,15 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "blockstack": "^19.3.0",
+    "@zeit/next-css": "^1.0.1",
+    "blockstack": "^20.0.0-alpha.5",
+    "express": "^4.17.1",
+    "file-saver": "^2.0.2",
+    "lodash": "^4.17.15",
+    "micro-cors": "^0.1.1",
     "next": "^9.1.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
