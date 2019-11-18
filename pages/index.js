@@ -159,25 +159,27 @@ export default class App extends Component {
             </form>
 
             <h2>files</h2>
-            {this.state.files.map((fileName, index) => {
-              return (
-                <li key={fileName}>
-                  <span>
-                    <a href="#" onClick={this.downloadFile}>
-                      {fileName}
-                    </a>
-                  </span>
-                  <span className="delete">
-                    <a
-                      href="#"
-                      onClick={() => this.deleteFile(index, fileName)}
-                    >
-                      x
-                    </a>
-                  </span>
-                </li>
-              );
-            })}
+            <ul>
+              {this.state.files.map((fileName, index) => {
+                return (
+                  <li key={fileName}>
+                    <span>
+                      <a href="#" onClick={this.downloadFile}>
+                        {fileName}
+                      </a>
+                    </span>
+                    <span className="delete">
+                      <a
+                        href="#"
+                        onClick={() => this.deleteFile(index, fileName)}
+                      >
+                        x
+                      </a>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         )}
       </div>

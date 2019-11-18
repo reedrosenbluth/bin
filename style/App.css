@@ -51,3 +51,7 @@ a {
   color: red;
   margin-left: .5rem;
 }
+
+ul {
+  padding-inline-start: 1em;
+}
