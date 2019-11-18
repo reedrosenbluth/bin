@@ -21,17 +21,40 @@ export default class App extends Component {
 
   async componentDidMount() {
     if (this.userSession.isUserSignedIn()) {
-      const user = this.userSession.loadUserData();
+      const user = await this.userSession.loadUserData();
       this.setState({ user });
     } else if (this.userSession.isSignInPending()) {
       const user = await this.userSession.handlePendingSignIn();
       this.setState({ user });
     }
 
-    if (this.state.user) {
+    if (this.state.user !== {}) {
       this.fetchData();
     }
   }
+
+  toAbsoluteURL(url) {
+    const a = document.createElement("a");
+    a.setAttribute("href", url);
+    return a.cloneNode(false).href;
+  }
+
+  signIn = async () => {
+    const redirectUrl = location.origin + location.pathname;
+    const manifestUrl = this.toAbsoluteURL("/manifest.json");
+    const authRequest = this.userSession.makeAuthRequest(
+      undefined,
+      redirectUrl,
+      manifestUrl,
+      undefined,
+      undefined,
+      undefined,
+      {
+        solicitGaiaHubUrl: true
+      }
+    );
+    this.userSession.redirectToSignInWithAuthRequest(authRequest);
+  };
 
   async fetchData() {
     if (this.state.user) {
@@ -114,9 +137,7 @@ export default class App extends Component {
 
         {!this.userSession.isUserSignedIn() ? (
           <div className="login">
-            <button onClick={() => this.userSession.redirectToSignIn()}>
-              sign in
-            </button>
+            <button onClick={this.signIn}>sign in</button>
           </div>
         ) : (
           <div>
