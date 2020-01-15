@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "blockstack": "^20.0.0-alpha.5",
+    "blockstack": "blockstack/blockstack.js#etags",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "lodash": "^4.17.15",

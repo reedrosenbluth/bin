@@ -28,7 +28,7 @@ export default class App extends Component {
       this.setState({ user });
     }
 
-    if (this.state.user !== {}) {
+    if (Object.keys(this.state.user).length > 0) {
       this.fetchData();
     }
   }
@@ -58,9 +58,11 @@ export default class App extends Component {
 
   async fetchData() {
     if (this.state.user) {
-      const text = await this.userSession.getFile("text");
-      if (text) {
+      try {
+        const text = await this.userSession.getFile("text");
         this.setState({ text });
+      } catch(err) {
+        console.log(err);
       }
 
       await this.userSession.listFiles(file => {
@@ -80,7 +82,14 @@ export default class App extends Component {
 
   uploadText = async event => {
     event.preventDefault();
-    await this.userSession.putFile("text", this.state.text);
+
+    try {
+      await this.userSession.putFile("text", this.state.text);
+    } catch (err) {
+      if (err.code === 'precondition_failed_error') {
+        alert("This text has been changed since you last loaded it. You must reload this application before you can make changes to it.")
+      }
+    }
   };
 
   handleChooseFile = event => {
@@ -89,7 +98,12 @@ export default class App extends Component {
 
   uploadFile = async event => {
     event.preventDefault();
-    await this.userSession.putFile(this.state.file.name, this.state.file);
+
+    try {
+      await this.userSession.putFile(this.state.file.name, this.state.file);
+    } catch (err) {
+      console.log(err.code)
+    }
 
     // Add filename to local application state
     this.setState({
