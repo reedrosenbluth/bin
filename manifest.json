@@ -1,6 +1,6 @@
 {
   "name": "bin",
-  "start_url": "http://bin.reedrosenbluth.com/",
+  "start_url": "https://blockstack-bin.reedr.vercel.app",
   "description": "blockstack file store",
   "icons": [
     {

@@ -12,8 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@blockstack/connect": "^2.7.5",
     "@zeit/next-css": "^1.0.1",
-    "blockstack": "blockstack/blockstack.js#etags",
+    "blockstack": "^21.1.0",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
