@@ -16,7 +16,7 @@
     "blockstack": "blockstack/blockstack.js#etags",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "micro-cors": "^0.1.1",
     "next": "^9.1.1",
     "react": "^16.11.0",
